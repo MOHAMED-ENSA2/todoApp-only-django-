@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %} 
+    <h1 > vous étes sur que vous voulez supprimer : "{{task}}"</h1>
+    <input type="submit" name="submit" id="submit" value="supprimer">
+</form>
+
+{% endblock %}

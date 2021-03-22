@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="header-bar">
+    <div>
+        <h1>Bonjour {{request.user|title}}</h1>
+        <h3 style="margin:0"> vous avez {{count}} tache{{ count|pluralize:"s" }} non finis </h3>
+    </div>
+    {% if request.user.is_authenticated  %}
+
+            <!-- <p >{{request.user}}</p> -->
+            <a  href="{% url 'logout' %}">logout</a>
+
+        {% else %}
+            <a href="{% url 'login' %}">login</a>  
+    {% endif %}
+</div>
+
+
+<hr>
+    
+    <div class="search_add">
+        <div style="flex : 7;">
+            <form  method="GET">
+                <input type="text" name = "search" value="{{search_par}}">
+                <input type="submit"  value="chercher">
+            </form>
+        </div>
+       
+        <a href="{% url 'create' %}" style="flex : 1 ; color: #EB796F; text-decoration: none ; text-align: end ;"> + </a> <br>
+    </div>  
+
+   
+        {% for tsk in Tasks %}
+        <div class="task-wrapper " >
+           <div style="flex : 80%;" >
+                {% if tsk.completed %}
+                <strike>
+                    {{tsk.title}}
+                </strike>
+                {% else %}
+                <span>
+                    {{tsk.title}}
+                </span>
+                {% endif %}
+           </div>
+            <div style="flex: 10%;" ><a href="{% url 'update' tsk.id %}"   ><img src="{% static '/images/a.png' %}" alt = 'hi' style="max-width : 25px"></a></div>
+            <div style="flex: 10%;"> <a href="{% url 'delete' tsk.id %}" style="color: #EB796F ; ">X</a></div>
+        </div>
+        {% empty %}
+        <h3>No items in list</h3>
+        {% endfor %}
+    
+   
+{% endblock %}
